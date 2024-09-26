@@ -11,7 +11,8 @@ function create_and_delete_files(json_file, count) {
 
         })
         .then((fileUrls) => {
-            console.log(fileUrls);
+            console.log("fileUrls fetch successfully...");
+            delete_json_files(fileUrls);
 
         })
         .catch((err) => {
@@ -46,6 +47,19 @@ function json_file_generator(json_file, count) {
 
     })
 
+}
+
+function delete_json_files(files) {
+    const deleteFiles = files.map((link) =>{fs.unlink(link)})
+    Promise.all(deleteFiles)
+    .then(() =>{
+        console.log("All files deleted...");
+        
+    })
+    .catch((err) =>{
+        console.log("Error while deleting the files: ", err);
+        
+    });
 }
 
 module.exports = { create_and_delete_files };
