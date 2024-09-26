@@ -1,18 +1,18 @@
 const fs = require("fs").promises;
 const path = require("path");
 
-const json_file = path.join(__dirname, "json-files");
+// const json_file = path.join(__dirname, "json-files");
 
 function create_and_delete_files(json_file, count) {
     create_directory(json_file)
         .then(() => {
             console.log("Directory created...!");
-            return json_file_generator(count);
+            return json_file_generator(json_file, count);
 
         })
-        .then((fileUrls) =>{
+        .then((fileUrls) => {
             console.log(fileUrls);
-            
+
         })
         .catch((err) => {
             console.error(err);
@@ -25,7 +25,7 @@ function create_directory(path) {
     return fs.mkdir(path, { recursive: true });
 }
 
-function json_file_generator(count) {
+function json_file_generator(json_file, count) {
     const paths = [];
     const files = [];
 
@@ -39,7 +39,7 @@ function json_file_generator(count) {
     }
     return Promise.all(files).then(() => {
         console.log("success..!");
-        
+
         return paths;
     }).catch((err) => {
         console.log(err);
@@ -50,4 +50,4 @@ function json_file_generator(count) {
 
 module.exports = { create_and_delete_files };
 
-create_and_delete_files(json_file, 5);
+// create_and_delete_files(json_file, 5);
