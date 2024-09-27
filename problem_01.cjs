@@ -26,7 +26,7 @@ function create_directory(path) {
     return fs.mkdir(path, { recursive: true });
 }
 
-function json_file_generator(json_file, count) {
+async function json_file_generator(json_file, count) {
     const paths = [];
     const files = [];
 
@@ -38,14 +38,13 @@ function json_file_generator(json_file, count) {
         files.push(p);
 
     }
-    return Promise.all(files).then(() => {
+    try {
+        await Promise.all(files);
         console.log("success..!");
-
         return paths;
-    }).catch((err) => {
+    } catch (err) {
         console.log(err);
-
-    })
+    }
 
 }
 
