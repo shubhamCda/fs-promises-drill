@@ -33,7 +33,19 @@ function problem_02_process() {
     })
     .then(() =>{
         console.log("filenames.txt updated..!");
+        return file_reader(lowercase_file_path);
         
+    })
+    .then((data) =>{
+        return sorting_file(data, sorted_file_path);
+    })
+    .then(() =>{
+        console.log("sorted.txt updated successfully..!");
+        return store_filenames(filenames_path, sorted_file_path);
+        
+    })
+    .then(() =>{
+        return file_reader(filenames_path);
     })
     .catch((err) => console.log(err)
     );
@@ -52,6 +64,10 @@ function convert_file_lowercase(data, path)  {
     return file_writer(path, lowercase_content);
 }
 
+function sorting_file(data, path){
+    const sorted_content = data.split(" ").sort((a, b) => a.localeCompare(b)).join("\n");
+    return file_writer(path, sorted_content);
+}
 
 function store_filenames(path, fileName) {
     return fs.appendFile(path, fileName + '\n');
