@@ -1,31 +1,16 @@
 const fs = require("fs").promises;
-const path = require("path");
+
 
 // const json_file = path.join(__dirname, "json-files");
 
-function create_and_delete_files(json_file, count) {
-    create_directory(json_file)
-        .then(() => {
-            console.log("Directory created...!");
-            return json_file_generator(json_file, count);
 
-        })
-        .then((fileUrls) => {
-            console.log("fileUrls fetch successfully...");
-            delete_json_files(fileUrls);
 
-        })
-        .catch((err) => {
-            console.error(err);
-
-        });
+// 1. Create a directory of random JSON files
+function create_directory(dirpath) {
+    return fs.mkdir(dirpath, { recursive: true });
 }
 
-
-function create_directory(path) {
-    return fs.mkdir(path, { recursive: true });
-}
-
+// function to generate json files
 async function json_file_generator(json_file, count) {
     const paths = [];
     const files = [];
@@ -48,19 +33,21 @@ async function json_file_generator(json_file, count) {
 
 }
 
+
+// function to delete files simultaneously 
 function delete_json_files(files) {
-    const deleteFiles = files.map((link) =>{fs.unlink(link)})
+    const deleteFiles = files.map((link) => { fs.unlink(link) })
     Promise.all(deleteFiles)
-    .then(() =>{
-        console.log("All files deleted...");
-        
-    })
-    .catch((err) =>{
-        console.log("Error while deleting the files: ", err);
-        
-    });
+        .then(() => {
+            console.log("All files deleted...");
+
+        })
+        .catch((err) => {
+            console.log("Error while deleting the files: ", err);
+
+        });
 }
 
-module.exports = { create_and_delete_files };
+module.exports = { create_directory, json_file_generator, delete_json_files };
 
 // create_and_delete_files(json_file, 5);
