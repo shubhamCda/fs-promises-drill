@@ -1,8 +1,9 @@
 const fs = require("fs").promises;
-const path = require("path");
+
+// drill using promises from fs library.
 
 
-
+// Convert the content to uppercase & write to a new file.
 function convert_file_uppercase(data, dirPath) {
 
     const uppercase_content = data.toUpperCase();
@@ -10,18 +11,23 @@ function convert_file_uppercase(data, dirPath) {
     return file_writer(dirPath, uppercase_content);
 }
 
+// function to convert content of new file to lower case. Then split the contents into sentences.Then write it to a new file.
 function convert_file_lowercase(data, dirPath) {
     const lowercase_content = data.toLowerCase();
 
-    return file_writer(dirPath, lowercase_content);
+    const sentences = lowercase_content.match(/[^.!?]+[.!?]+/g) || lowercase_content.split("\n");
+
+    return file_writer(dirPath, sentences.join(" "));
 }
 
+
+// sort the content, write it out to a new file.
 function sorting_file(data, dirPath) {
     const sorted_content = data.split(" ").sort((a, b) => a.localeCompare(b)).join("\n");
     return file_writer(dirPath, sorted_content);
 }
 
-
+// delete all the new files that are mentioned in that list simultaneously.
 function delete_files(data) {
     const seperate_file = data.split("\n");
     console.log(seperate_file);
@@ -35,11 +41,13 @@ function delete_files(data) {
     return Promise.all(removed_files)
 }
 
-
+// Store the name of the new file in filenames.txt
 function store_filenames(dirPath, fileName) {
     return fs.appendFile(dirPath, fileName + '\n');
 }
 
+
+// function to read the given file 
 function file_reader(dirPath) {
     return fs.readFile(dirPath, "utf-8");
 
