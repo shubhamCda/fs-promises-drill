@@ -1,6 +1,13 @@
 const fs = require("fs").promises;
 const path = require("path");
 
+/*
+    Problem 1:
+    
+    Using callbacks and the fs module's asynchronous functions, do the following:
+        1. Create a directory of random JSON files
+        2. Delete those files simultaneously 
+*/
 
 
 function create_and_delete_files(dirPath, count) {
@@ -12,7 +19,7 @@ function create_and_delete_files(dirPath, count) {
         })
         .then((fileUrls) => {
             console.log("fileUrls fetch successfully...");
-            delete_json_files(fileUrls);
+            return delete_json_files(fileUrls);
 
         })
         .catch((err) => {
