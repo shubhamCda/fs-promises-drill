@@ -1,8 +1,25 @@
 const fs = require("fs").promises;
+const path = require("path");
 
 
-// const json_file = path.join(__dirname, "json-files");
 
+function create_and_delete_files(dirPath, count) {
+    create_directory(dirPath)
+        .then(() => {
+            console.log("Directory created...!");
+            return json_file_generator(dirPath, count);
+
+        })
+        .then((fileUrls) => {
+            console.log("fileUrls fetch successfully...");
+            delete_json_files(fileUrls);
+
+        })
+        .catch((err) => {
+            console.error(err);
+
+        });
+}
 
 
 // 1. Create a directory of random JSON files
@@ -48,6 +65,5 @@ function delete_json_files(files) {
         });
 }
 
-module.exports = { create_directory, json_file_generator, delete_json_files };
+module.exports = { create_and_delete_files };
 
-// create_and_delete_files(json_file, 5);
